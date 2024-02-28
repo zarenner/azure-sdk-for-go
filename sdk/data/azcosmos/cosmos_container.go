@@ -176,6 +176,45 @@ func (c *ContainerClient) ReplaceThroughput(
 	return offers.ReadThroughputIfExists(ctx, rid, o)
 }
 
+func (c *ContainerClient) ExecuteStoredProcedure(
+	ctx context.Context,
+	id string,
+	partitionKey PartitionKey,
+	params []any,
+	o *ExecuteStoredProcedureOptions) (ExecuteStoredProcedureResponse, error) {
+	h := headerOptionsOverride{
+		partitionKey: &partitionKey,
+	}
+
+	if o == nil {
+		o = &ExecuteStoredProcedureOptions{}
+	}
+
+	operationContext := pipelineRequestOptions{
+		resourceType:          resourceTypeStoredProcedure,
+		resourceAddress:       createLink(c.link, pathSegmentStoredProcedure, id),
+		isWriteOperation:      true,
+		headerOptionsOverride: &h}
+
+	path, err := generatePathForNameBased(resourceTypeStoredProcedure, operationContext.resourceAddress, true)
+	if err != nil {
+		return ExecuteStoredProcedureResponse{}, err
+	}
+
+	azResponse, err := c.database.client.sendPostRequest(
+		path,
+		ctx,
+		params,
+		operationContext,
+		o,
+		nil)
+	if err != nil {
+		return ExecuteStoredProcedureResponse{}, err
+	}
+
+	return newExecuteStoredProcedureResponse(azResponse)
+}
+
 // CreateItem creates an item in a Cosmos container.
 // ctx - The context for the request.
 // partitionKey - The partition key for the item.

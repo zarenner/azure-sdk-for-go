@@ -34,12 +34,15 @@ const (
 	cosmosHeaderIsBatchAtomic                      string = "x-ms-cosmos-batch-atomic"
 	cosmosHeaderIsBatchOrdered                     string = "x-ms-cosmos-batch-ordered"
 	cosmosHeaderSDKSupportedCapabilities           string = "x-ms-cosmos-sdk-supportedcapabilities"
-	headerXmsDate                                  string = "x-ms-date"
-	headerAuthorization                            string = "Authorization"
-	headerContentType                              string = "Content-Type"
-	headerIfMatch                                  string = "If-Match"
-	headerIfNoneMatch                              string = "If-None-Match"
-	headerXmsVersion                               string = "x-ms-version"
+	cosmosHeaderEnableScriptLogging                string = "x-ms-documentdb-script-enable-logging"
+	cosmosHeaderScriptLogResults                   string = "x-ms-documentdb-script-log-results"
+
+	headerXmsDate       string = "x-ms-date"
+	headerAuthorization string = "Authorization"
+	headerContentType   string = "Content-Type"
+	headerIfMatch       string = "If-Match"
+	headerIfNoneMatch   string = "If-None-Match"
+	headerXmsVersion    string = "x-ms-version"
 )
 
 const (
